@@ -72,7 +72,7 @@ export default function App() {
     setVariance(`${[...new Set(globalArray)]}`);
   }
   function getMode(array) {
-    frequencies = {};
+    let frequencies = {};
 
     array.forEach((n) => (frequencies[n] = (frequencies[n] || 0) + 1));
 
