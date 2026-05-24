@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Card from "./Card.jsx";
 
 export default function App() {
-  const [inp, setInp] = useState("");
+  const [inp, setInp] = useState(localStorage.getItem("inp") || "");
   const [array, setArray] = useState([0]);
   const [arrayInOrder, setArrayInOrder] = useState([0]);
 
@@ -109,7 +109,10 @@ export default function App() {
     return array.length;
   }
 
-  useEffect(() => {}, [inp]);
+  useEffect(() => {
+    localStorage.setItem("inp", inp);
+    handleInpChange(inp);
+  }, [inp]);
 
   return (
     <div className="App">
