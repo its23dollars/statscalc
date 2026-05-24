@@ -15,6 +15,8 @@ export default function App() {
   const [mode, setMode] = useState(0);
   const [variance, setVariance] = useState(0);
 
+  const [warnHidden, setWarnHidden] = useState(true);
+
   const allowed = /^(10|[1-9])(,(10|[1-9]))*$/;
 
   function getMin(array) {
@@ -50,7 +52,24 @@ export default function App() {
   }
 
   function handleInpChange(val) {
-    const globalArray = val.split(",").map((a) => Number(a));
+    let globalArray;
+    setWarnHidden(true);
+    if (val.includes(" ")) {
+      globalArray = val
+        .split(" ")
+        .filter((x) => x !== "")
+        .map(Number);
+    } else {
+      globalArray = val
+        .split(",")
+        .filter((x) => x !== "")
+        .map(Number);
+    }
+
+    if (globalArray.includes(NaN)) {
+      setWarnHidden(false);
+    }
+
     const sortedArray = globalArray.sort((a, b) => a - b);
 
     setArrayInOrder(`${sortedArray}`);
@@ -69,7 +88,7 @@ export default function App() {
       }
     });
     setRange(getMax(globalArray) - getMin(globalArray));
-    setVariance(`${[...new Set(globalArray)]}`);
+    setVariance(globalArray.length);
   }
   function getMode(array) {
     let frequencies = {};
@@ -87,10 +106,7 @@ export default function App() {
     }
   }
   function getVariance(array) {
-    const newArray = array.filter(
-      (n) => array.indexOf(n) == array.lastIndexOf(n)
-    );
-    return newArray;
+    return array.length;
   }
 
   useEffect(() => {}, [inp]);
@@ -125,7 +141,7 @@ export default function App() {
           title="Sum of Array"
           number={sum}></Card>
         <Card
-          title="Varience"
+          title="Length"
           number={variance}></Card>
       </div>
       <p
@@ -138,6 +154,11 @@ export default function App() {
         Array in arranging order:
       </p>
       <h1>{arrayInOrder}</h1>
+      <p
+        style={{ color: "red" }}
+        hidden={warnHidden}>
+        Invalid Array
+      </p>
 
       <hr />
       <input
