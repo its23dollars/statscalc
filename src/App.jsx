@@ -156,7 +156,16 @@ export default function App() {
         }}>
         Array in arranging order:
       </p>
-      <h1>{arrayInOrder}</h1>
+      <h1
+        style={{
+          whiteSpace: "normal",
+          flex: "1",
+          minWidth: "0",
+          overflowWrap: "break-word",
+          wordWrap: "break-word",
+        }}>
+        {arrayInOrder}
+      </h1>
       <p
         style={{ color: "red" }}
         hidden={warnHidden}>
@@ -169,7 +178,7 @@ export default function App() {
         placeholder="Enter array of numbers"
         value={inp}
         onChange={(event) => {
-          if (/^[0-9 ,]*$/.test(event.target.value)) {
+          if (/^[0-9 ,.]*$/.test(event.target.value)) {
             setInp(event.target.value);
             handleInpChange(event.target.value);
           }
